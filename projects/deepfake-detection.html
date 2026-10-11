@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Deepfake Detection - Engineering Case Study | Manan Engineering Lab</title>
+    <meta name="description" content="How a unified deepfake detection platform combines rPPG pulse extraction, optical flow, micro-expression strain, a simulated quantum-state stage, classical audio ML, and image error-level analysis.">
+    <meta name="theme-color" content="#0a0a12">
+    <link rel="canonical" href="https://manan-engineering-lab.pages.dev/projects/deepfake-detection.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Manan Engineering Lab">
+    <meta property="og:title" content="Unified Deepfake Detection - Engineering Case Study">
+    <meta property="og:description" content="Physiological signal analysis (rPPG, optical flow, micro-expression) with a simulated quantum-state stage and classical audio and image detectors.">
+    <meta property="og:url" content="https://manan-engineering-lab.pages.dev/projects/deepfake-detection.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Unified Deepfake Detection - Engineering Case Study">
+    <meta name="twitter:description" content="Physiological signal analysis with a simulated quantum-state stage and classical audio and image detectors.">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0a12'/><path d='M8 24V8l8 10 8-10v16' fill='none' stroke='%236d8cff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <nav class="navbar" aria-label="Primary navigation">
+            <a class="logo" href="../index.html#hero">Manan<span class="logo-accent">.lab</span></a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#domains">Domains</a></li>
+                <li><a href="../index.html#research">Research</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li aria-current="page">Unified Deepfake Detection</li>
+            </ol>
+        </nav>
+
+        <article class="case-hero">
+            <p class="case-kicker">Case study</p>
+            <h1 class="case-title">Unified Deepfake Detection</h1>
+            <p class="case-lead">A forensic platform that inspects video, audio, and images for signs of manipulation. Rather than leaning on a single black-box frame classifier, the video path extracts physiological signals - a pulse waveform recovered from subtle skin-colour changes (rPPG), motion from optical flow, and micro-expression strain - then maps them onto a simulated quantum state to measure how far they drift from calibrated biological baselines.</p>
+            <ul class="case-meta">
+                <li>Status: implemented, experimental</li>
+                <li>Media: video, audio, image</li>
+                <li>Runtime: Python 3.11 + Flask</li>
+                <li>Quantum stage: simulated on CPU</li>
+            </ul>
+            <div class="case-actions">
+                <a class="action-link action-link--primary" href="https://github.com/mananbd07/Deepfake-System" target="_blank" rel="noopener noreferrer">Source repository</a>
+                <a class="action-link" href="../index.html#projects">All projects</a>
+            </div>
+        </article>
+
+        <div class="case-body">
+            <section class="case-section" aria-labelledby="overview">
+                <h2 id="overview">Overview and objective</h2>
+                <p>Synthetic media detectors often reduce a clip to per-frame spatial features and let a neural network decide. That approach is opaque and can generalise poorly to new generators. This project explores the opposite direction: read the physical and physiological traces that a genuine recording carries and that a synthesiser has no reason to reproduce faithfully.</p>
+                <p>The objective was a single application that unifies three analysis paths - video, audio, and still image - and returns a REAL / DEEPFAKE verdict with supporting metrics. The canonical implementation lives in <code>00_Unified_Deepfake_System</code>; an older video-only prototype is retained under <code>02_Video_Deepfake_1</code> for archival purposes only.</p>
+                <div class="callout callout--optional">
+                    <span class="callout-label">Scope note</span>
+                    <p>The "quantum" component is a classical numerical simulation of quantum dynamics running on a CPU. It is a mathematical framework for measuring signal complexity - not execution on quantum hardware, and no quantum-advantage claim is made.</p>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="architecture">
+                <h2 id="architecture">System architecture</h2>
+                <p class="case-section-intro">The component map below follows the video path, which is the most involved of the three. The audio and image paths share the same interface but substitute their own detection stages.</p>
+
+                <figure class="arch-figure">
+                    <svg class="arch-svg" viewBox="0 0 380 376" role="img" aria-labelledby="df-arch-title df-arch-desc" font-family="Inter, system-ui, sans-serif" xmlns="http://www.w3.org/2000/svg">
+                        <title id="df-arch-title">Component map of the Unified Deepfake Detection video pipeline</title>
+                        <desc id="df-arch-desc">A four-stage stack: the Flask input interface feeds biological signal extraction, which feeds a simulated quantum-state stage, which feeds a threshold-based decision.</desc>
+                        <defs>
+                            <marker id="df-arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                                <path d="M1 1 L9 5 L1 9 z" fill="#6d8cff"></path>
+                            </marker>
+                        </defs>
+                        <rect x="20" y="20" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="44" fill="#e7e9f2" font-size="16" font-weight="700">Input and interface</text>
+                        <text x="36" y="64" fill="#9aa3b6" font-size="12.5">Flask + SocketIO web app (port 8080)</text>
+                        <text x="36" y="80" fill="#9aa3b6" font-size="12.5">or CLI: experiments/run_single_video</text>
+                        <line x1="190" y1="96" x2="190" y2="116" stroke="#6d8cff" stroke-width="2" marker-end="url(#df-arrow)"></line>
+                        <rect x="20" y="108" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="132" fill="#e7e9f2" font-size="16" font-weight="700">Biological signal extraction</text>
+                        <text x="36" y="152" fill="#9aa3b6" font-size="12.5">MediaPipe FaceMesh facial landmarks</text>
+                        <text x="36" y="168" fill="#9aa3b6" font-size="12.5">rPPG (POS), optical flow, micro-strain</text>
+                        <line x1="190" y1="184" x2="190" y2="204" stroke="#6d8cff" stroke-width="2" marker-end="url(#df-arrow)"></line>
+                        <rect x="20" y="196" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="220" fill="#e7e9f2" font-size="16" font-weight="700">Quantum-state simulation</text>
+                        <text x="36" y="240" fill="#9aa3b6" font-size="12.5">PennyLane default.mixed, CPU only</text>
+                        <text x="36" y="256" fill="#9aa3b6" font-size="12.5">simulated state - not quantum hardware</text>
+                        <line x1="190" y1="272" x2="190" y2="292" stroke="#6d8cff" stroke-width="2" marker-end="url(#df-arrow)"></line>
+                        <rect x="20" y="284" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="308" fill="#e7e9f2" font-size="16" font-weight="700">Threshold decision</text>
+                        <text x="36" y="328" fill="#9aa3b6" font-size="12.5">calibrated_thresholds.json boundaries</text>
+                        <text x="36" y="344" fill="#9aa3b6" font-size="12.5">two or more violations flag the clip</text>
+                    </svg>
+                    <figcaption>Video-path component map. The audio path replaces the last three blocks with librosa MFCC features and a scikit-learn classifier (<code>audio_classifier.pkl</code> + <code>scaler.pkl</code>); the image path replaces them with OpenCV error-level analysis. Only the video path uses the simulated quantum stage.</figcaption>
+                </figure>
+
+                <h3>How data moves through the system</h3>
+                <ol class="flow">
+                    <li class="flow-step">
+                        <span class="flow-label">Capture or upload</span>
+                        <p class="flow-desc">A video, image, or audio clip is submitted through the Flask web UI, the command-line experiment runner, or the optional Chrome extension, which forwards browser frames to the local backend on port 8080.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Face and landmark detection</span>
+                        <p class="flow-desc">MediaPipe FaceMesh locates the face across frames. Footage without enough usable face samples is reported as insufficient input rather than forced into a verdict.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Physiological signal extraction</span>
+                        <p class="flow-desc">The rPPG stage recovers a pulse waveform from subtle skin-colour variation, Farneback optical flow estimates motion energy, and a micro-expression stage measures neuromuscular strain around the face.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Normalisation and feature packaging</span>
+                        <p class="flow-desc">The extracted time-series are normalised and packaged into the feature vector consumed by the decision stages.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Quantum-state simulation</span>
+                        <p class="flow-desc">Features are encoded into a simulated quantum state (PennyLane <code>default.mixed</code>) so that observables such as purity, coherence, and entanglement entropy can be read out as a complexity signal.</p>
+                        <span class="flow-tag">Simulated</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Threshold-based verdict</span>
+                        <p class="flow-desc">The measured metrics are compared against calibrated biological boundaries. When at least two signals violate their thresholds, the clip is flagged as a deepfake.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Parallel audio and image paths</span>
+                        <p class="flow-desc">Audio is classified from librosa MFCC and delta features through a joblib model and scaler; still images are scored with OpenCV error-level analysis using a deterministic anomaly score.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="case-section" aria-labelledby="stack">
+                <h2 id="stack">Verified technology stack</h2>
+                <p class="case-section-intro">Confirmed from the repository, its requirement pins, and the bundled model files. No video deep-learning model is shipped - the video decision is rule-based.</p>
+                <ul class="spec-list">
+                    <li><span class="spec-key">Language and runtime</span><span class="spec-val">Python 3.11 in a virtual environment</span></li>
+                    <li><span class="spec-key">Web and API</span><span class="spec-val">Flask with Flask-SocketIO for upload and live progress</span></li>
+                    <li><span class="spec-key">Computer vision</span><span class="spec-val">MediaPipe FaceMesh (pinned <code>mediapipe==0.10.9</code>), OpenCV (<code>opencv-python-headless</code>)</span></li>
+                    <li><span class="spec-key">Signal processing</span><span class="spec-val">NumPy and SciPy for filtering and feature math</span></li>
+                    <li><span class="spec-key">Audio ML</span><span class="spec-val">librosa MFCC + delta features; scikit-learn classifier and scaler stored as <code>audio_classifier.pkl</code> and <code>scaler.pkl</code></span></li>
+                    <li><span class="spec-key">Quantum simulation</span><span class="spec-val">PennyLane (<code>qml.device("default.mixed")</code>) running on CPU</span></li>
+                    <li><span class="spec-key">Decision data</span><span class="spec-val"><code>calibrated_thresholds.json</code> - biological boundaries for the video verdict</span></li>
+                </ul>
+            </section>
+
+            <section class="case-section" aria-labelledby="decisions">
+                <h2 id="decisions">Key technical decisions and trade-offs</h2>
+                <div class="case-grid">
+                    <div class="case-panel">
+                        <h3>Rule-based video decision over a learned model</h3>
+                        <p>The repository contains no <code>.pt</code>, <code>.pth</code>, or <code>.onnx</code> model for frame classification. Decisions come from explicit physiological boundaries in <code>calibrated_thresholds.json</code>. This keeps the verdict inspectable and needs no labelled training set, at the cost of sensitivity to lighting, makeup, and framerate.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>Quantum stage as a measuring instrument</h3>
+                        <p>The simulated state is used to express purity, coherence, and entanglement entropy of the biological signals, giving a compact complexity reading. Keeping it on CPU keeps the system portable; it also caps throughput and is explicitly not a hardware speedup.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>Fail honestly on unusable input</h3>
+                        <p>When a clip yields too few face-detected samples for bandpass filtering, or is too short for audio classification, the tool reports insufficient data instead of inventing a confidence value.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>Three modalities with graceful degradation</h3>
+                        <p>Audio classification loads independently, and image scoring is heuristic, so the application still returns a useful result when no trustworthy biological signal is available.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="limitations">
+                <h2 id="limitations">Challenges and limitations</h2>
+                <ul>
+                    <li><strong>Threshold dependency.</strong> Accuracy is heavily dependent on the fixed biological thresholds, which may fail on extreme lighting, heavy makeup, or non-standard framerates.</li>
+                    <li><strong>CPU-bound simulation.</strong> The quantum component runs on classical hardware, limiting real-time throughput.</li>
+                    <li><strong>Input requirements.</strong> Audio needs clean clips of sufficient duration; very short clips are rejected. Video needs a sufficiently visible face.</li>
+                    <li><strong>Backend coupling.</strong> The Chrome extension only works while the local Flask backend is running on port 8080.</li>
+                    <li><strong>No broad benchmarking yet.</strong> The repository is a functional prototype; generalisation across diverse, in-the-wild datasets still needs empirical validation, so no accuracy figures are claimed here.</li>
+                    <li><strong>Legacy code.</strong> The <code>02_Video_Deepfake_1</code> prototype is archival and is not the primary runtime.</li>
+                </ul>
+            </section>
+
+            <section class="case-section" aria-labelledby="reproduce">
+                <h2 id="reproduce">Reproducing and exploring it</h2>
+                <p>The repository documents a Python 3.11 virtual environment and a single Flask entry point. MediaPipe must be installed exactly as pinned because the FaceMesh pipeline depends on it.</p>
+<pre><code>git clone https://github.com/mananbd07/Deepfake-System.git
+cd Deepfake-System
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+cd 00_Unified_Deepfake_System
+python qbioforge_web/app.py</code></pre>
+                <p>Then open <code>http://localhost:8080</code>. A clip can also be run headlessly with <code>python -m experiments.run_single_video --video &lt;path_to_mp4&gt;</code>. Test media is not committed - datasets and sample videos are excluded by <code>.gitignore</code>, so you supply your own.</p>
+            </section>
+
+            <section class="case-section" aria-labelledby="future">
+                <h2 id="future">Future engineering work</h2>
+                <div class="callout callout--future">
+                    <span class="callout-label">Future work - not implemented</span>
+                    <ul>
+                        <li>Benchmark the pipeline against public deepfake datasets to substantiate generalisation.</li>
+                        <li>Calibrate or learn the physiological thresholds automatically while keeping the decision interpretable.</li>
+                        <li>Broaden capture beyond the local extension and webcam inputs.</li>
+                        <li>Add efficiency work so the simulated quantum stage keeps up with longer clips.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="related">
+                <h2 id="related">Related case studies</h2>
+                <p class="case-section-intro">This pipeline shares its signal-extraction approach with the packaged QBioForge application, and its applied-vision style with the traffic system.</p>
+                <div class="case-actions">
+                    <a class="action-link" href="qbioforge.html">QBioForge</a>
+                    <a class="action-link" href="smart-traffic-detection.html">Smart Traffic Detection</a>
+                    <a class="action-link" href="../index.html#projects">Back to all projects</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="contact" class="site-footer">
+        <div class="footer-inner">
+            <h2 class="footer-title">Let's build something</h2>
+            <p class="footer-lead">Open to collaboration on applied AI, computer vision, and embedded systems work.</p>
+            <div class="footer-links">
+                <a class="btn btn-primary" href="https://github.com/mananbd07" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="btn btn-ghost" href="mailto:contact@manan.ai">Email</a>
+            </div>
+            <p class="copyright">&copy; <span id="year">2026</span> Manan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

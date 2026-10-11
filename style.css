@@ -723,3 +723,458 @@ img {
         transform: none;
     }
 }
+
+/* =========================================================
+   Case studies
+   A single reusable layout for the nested project pages. It
+   reuses the existing design tokens above so the pages inherit
+   the same identity, focus styling, and reduced-motion rules.
+   ========================================================= */
+
+.breadcrumb {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: calc(var(--nav-h) + 1.6rem) 1.5rem 0;
+}
+
+.breadcrumb ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+}
+
+.breadcrumb li:not(:last-child)::after {
+    content: "/";
+    margin-left: 0.45rem;
+    color: var(--border-strong);
+}
+
+.breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+    color: var(--text);
+}
+
+.breadcrumb [aria-current="page"] {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.case-hero {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 0.5rem;
+}
+
+.case-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.7rem;
+}
+
+.case-title {
+    font-size: clamp(1.9rem, 4.2vw, 2.7rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.14;
+    margin-bottom: 0.9rem;
+}
+
+.case-lead {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 780px;
+}
+
+.case-meta {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.4rem 0 0;
+}
+
+.case-meta li {
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 0.28rem 0.7rem;
+    border-radius: 999px;
+    color: #b9c4e8;
+    background: var(--accent-soft);
+    border: 1px solid rgba(109, 140, 255, 0.22);
+}
+
+.case-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1.6rem;
+}
+
+.case-body {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+}
+
+.case-section {
+    margin-top: 3.2rem;
+    scroll-margin-top: calc(var(--nav-h) + 16px);
+}
+
+.case-section > h2 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+}
+
+.case-section-intro {
+    color: var(--muted);
+    margin-bottom: 1.3rem;
+    max-width: 800px;
+}
+
+.case-section h3 {
+    font-size: 1.08rem;
+    font-weight: 600;
+    margin: 1.7rem 0 0.55rem;
+}
+
+.case-section p {
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+    max-width: 820px;
+}
+
+.case-section p:last-child {
+    margin-bottom: 0;
+}
+
+.case-section ul,
+.case-section ol {
+    color: var(--muted);
+    margin: 0 0 1rem 1.15rem;
+    max-width: 820px;
+}
+
+.case-section li {
+    margin-bottom: 0.5rem;
+}
+
+.case-section li:last-child {
+    margin-bottom: 0;
+}
+
+.case-section a {
+    color: var(--focus);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.case-section a:hover,
+.case-section a:focus-visible {
+    color: var(--text);
+}
+
+.case-note {
+    color: var(--muted);
+    font-size: 0.84rem;
+    margin-top: 0.9rem;
+    max-width: 820px;
+}
+
+.case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    gap: 1.2rem;
+    margin-top: 0.4rem;
+}
+
+.case-panel {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.4rem;
+}
+
+.case-panel > h3 {
+    margin-top: 0;
+}
+
+.case-panel > :last-child {
+    margin-bottom: 0;
+}
+
+/* Label / value spec list used for the verified technology stack. */
+.spec-list {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    gap: 0.7rem;
+}
+
+.spec-list > li {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.42fr) 1fr;
+    gap: 0.25rem 1rem;
+    margin: 0;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.spec-list > li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.spec-key {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.86rem;
+}
+
+.spec-val {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* Callouts: label implemented / optional / simulated / future work. */
+.callout {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.2rem;
+    margin: 1.2rem 0;
+    max-width: 820px;
+}
+
+.callout > :last-child {
+    margin-bottom: 0;
+}
+
+.callout-label {
+    display: block;
+    font-size: 0.71rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+}
+
+.callout--future {
+    border-left-color: var(--violet);
+}
+
+.callout--future .callout-label {
+    color: var(--violet);
+}
+
+.callout--optional {
+    border-left-color: var(--border-strong);
+}
+
+.callout--optional .callout-label {
+    color: var(--muted);
+}
+
+.callout--risk {
+    border-left-color: #f2b36b;
+}
+
+.callout--risk .callout-label {
+    color: #f2b36b;
+}
+
+/* Structured pipeline diagram (semantic ordered list, fully responsive). */
+.flow {
+    list-style: none;
+    margin: 1.4rem 0 0;
+    counter-reset: flow;
+}
+
+.flow-step {
+    position: relative;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.95rem 1.1rem 0.95rem 3.35rem;
+    counter-increment: flow;
+    max-width: 820px;
+}
+
+.flow-step::before {
+    content: counter(flow);
+    position: absolute;
+    left: 0.85rem;
+    top: 0.85rem;
+    width: 1.7rem;
+    height: 1.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    border: 1px solid rgba(109, 140, 255, 0.3);
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.flow-step:not(:last-child) {
+    margin-bottom: 1.6rem;
+}
+
+.flow-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 1.69rem;
+    top: 100%;
+    width: 2px;
+    height: 1.6rem;
+    background: var(--border-strong);
+}
+
+.flow-label {
+    display: block;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.98rem;
+    margin-bottom: 0.2rem;
+}
+
+.flow-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.flow-tag {
+    display: inline-block;
+    margin-top: 0.55rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #b9c4e8;
+    background: rgba(109, 140, 255, 0.1);
+    border: 1px solid rgba(109, 140, 255, 0.22);
+    border-radius: 999px;
+    padding: 0.15rem 0.55rem;
+}
+
+/* Architecture figure (inline SVG, scales with the viewport). */
+.arch-figure {
+    margin: 1.5rem 0 0;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.3rem;
+}
+
+.arch-figure figcaption {
+    color: var(--muted);
+    font-size: 0.84rem;
+    margin-top: 1rem;
+    max-width: 760px;
+}
+
+.arch-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* Inline code and command blocks used by the case studies. */
+.case-section code,
+.arch-figure code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.86em;
+    color: #cdd6f4;
+    background: rgba(109, 140, 255, 0.1);
+    border: 1px solid rgba(109, 140, 255, 0.18);
+    border-radius: 5px;
+    padding: 0.05em 0.34em;
+    overflow-wrap: break-word;
+}
+
+.case-section pre {
+    background: #0c0d18;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.1rem;
+    margin: 1rem 0;
+    max-width: 820px;
+}
+
+.case-section pre code {
+    display: block;
+    background: none;
+    border: none;
+    padding: 0;
+    color: #cdd6f4;
+    font-size: 0.86rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+    .breadcrumb {
+        padding: calc(var(--nav-h) + 1.2rem) 1.25rem 0;
+    }
+
+    .case-hero {
+        padding: 2rem 1.25rem 0.5rem;
+    }
+
+    .case-body {
+        padding: 0 1.25rem 4rem;
+    }
+
+    .spec-list > li {
+        grid-template-columns: 1fr;
+        gap: 0.15rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .breadcrumb {
+        padding: calc(var(--nav-h) + 1rem) 1rem 0;
+    }
+
+    .case-hero {
+        padding: 1.6rem 1rem 0.5rem;
+    }
+
+    .case-body {
+        padding: 0 1rem 3.5rem;
+    }
+
+    .case-title {
+        font-size: 1.7rem;
+    }
+
+    .flow-step {
+        padding: 0.85rem 0.95rem 0.85rem 3rem;
+    }
+
+    .arch-figure {
+        padding: 1rem;
+    }
+}

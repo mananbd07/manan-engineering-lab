@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QBioForge - Quantum Deepfake Forensics | Manan Engineering Lab</title>
+    <meta name="description" content="A packaged Gradio research prototype for deepfake forensics: biological signal extraction, a simulated quantum-state stage on CPU, a rule-based detector, and Docker packaging.">
+    <meta name="theme-color" content="#0a0a12">
+    <link rel="canonical" href="https://manan-engineering-lab.pages.dev/projects/qbioforge.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Manan Engineering Lab">
+    <meta property="og:title" content="QBioForge - Quantum Deepfake Forensics">
+    <meta property="og:description" content="A packaged Gradio research prototype for deepfake forensics with a simulated quantum-state stage running on CPU.">
+    <meta property="og:url" content="https://manan-engineering-lab.pages.dev/projects/qbioforge.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="QBioForge - Quantum Deepfake Forensics">
+    <meta name="twitter:description" content="A packaged Gradio research prototype for deepfake forensics with a simulated quantum-state stage running on CPU.">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0a12'/><path d='M8 24V8l8 10 8-10v16' fill='none' stroke='%236d8cff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <nav class="navbar" aria-label="Primary navigation">
+            <a class="logo" href="../index.html#hero">Manan<span class="logo-accent">.lab</span></a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#domains">Domains</a></li>
+                <li><a href="../index.html#research">Research</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li aria-current="page">QBioForge</li>
+            </ol>
+        </nav>
+
+        <article class="case-hero">
+            <p class="case-kicker">Case study</p>
+            <h1 class="case-title">QBioForge - Quantum Deepfake Forensics</h1>
+            <p class="case-lead">QBioForge takes the physiological forensic approach and packages it as a self-contained, demo-ready application. A Gradio interface accepts video, image, or audio, runs the analysis pipeline, and returns a REAL / DEEPFAKE verdict with a confidence score and supporting metrics. The whole thing builds into a container so it can be run and shared without a Python environment being set up by hand.</p>
+            <ul class="case-meta">
+                <li>Status: research prototype</li>
+                <li>Interface: Gradio (port 7860)</li>
+                <li>Packaging: Docker (python:3.11-slim)</li>
+                <li>Quantum stage: simulated on CPU</li>
+            </ul>
+            <div class="case-actions">
+                <a class="action-link action-link--primary" href="../index.html#projects">Open the live demo</a>
+                <a class="action-link" href="../index.html#projects">All projects</a>
+            </div>
+            <p class="case-note">The live demo is served from a local host through a temporary Cloudflare tunnel, so it is only reachable while that host is running. The link lives on the homepage project card.</p>
+        </article>
+
+        <div class="case-body">
+            <section class="case-section" aria-labelledby="overview">
+                <h2 id="overview">Overview and objective</h2>
+                <p>The earlier unified detector proved out the forensics but shipped as a developer-facing Flask tool with loose scripts. The objective here was a single, portable artifact: one Gradio app, one requirements file, and one Docker image that behaves the same on a laptop, in a container, or on a hosted Space.</p>
+                <p>QBioForge inspects three input types - video, image, and audio - and reports a verdict with forensic metrics. The project is explicitly framed as a research prototype: results are not treated as definitive evidence, and it is not a medical, clinical, or forensic-grade instrument.</p>
+                <div class="callout callout--optional">
+                    <span class="callout-label">Scope note</span>
+                    <p>PennyLane is used here for classical numerical simulation of quantum dynamics (state evolution, purity, entropy). No quantum hardware is accessed and no quantum advantage is claimed.</p>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="architecture">
+                <h2 id="architecture">System architecture</h2>
+                <p class="case-section-intro">A thin Gradio shell around a self-contained forensic core. The core is organised so the packaged modules can be imported and tested without the UI.</p>
+
+                <figure class="arch-figure">
+                    <svg class="arch-svg" viewBox="0 0 380 376" role="img" aria-labelledby="qf-arch-title qf-arch-desc" font-family="Inter, system-ui, sans-serif" xmlns="http://www.w3.org/2000/svg">
+                        <title id="qf-arch-title">Component map of the QBioForge application</title>
+                        <desc id="qf-arch-desc">A four-stage stack: the Gradio web app feeds the forensic core packages, which produce a simulated quantum state, which feeds a deterministic rule-based detector.</desc>
+                        <defs>
+                            <marker id="qf-arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                                <path d="M1 1 L9 5 L1 9 z" fill="#6d8cff"></path>
+                            </marker>
+                        </defs>
+                        <rect x="20" y="20" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="44" fill="#e7e9f2" font-size="16" font-weight="700">Gradio web app (app.py)</text>
+                        <text x="36" y="64" fill="#9aa3b6" font-size="12.5">video, image and audio tabs</text>
+                        <text x="36" y="80" fill="#9aa3b6" font-size="12.5">Docker: python:3.11-slim, port 7860</text>
+                        <line x1="190" y1="96" x2="190" y2="116" stroke="#6d8cff" stroke-width="2" marker-end="url(#qf-arrow)"></line>
+                        <rect x="20" y="108" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="132" fill="#e7e9f2" font-size="16" font-weight="700">Forensic core (qbioforge/)</text>
+                        <text x="36" y="152" fill="#9aa3b6" font-size="12.5">preprocessing, quantum, model,</text>
+                        <text x="36" y="168" fill="#9aa3b6" font-size="12.5">experiments modules</text>
+                        <line x1="190" y1="184" x2="190" y2="204" stroke="#6d8cff" stroke-width="2" marker-end="url(#qf-arrow)"></line>
+                        <rect x="20" y="196" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="220" fill="#e7e9f2" font-size="16" font-weight="700">Quantum-state simulation</text>
+                        <text x="36" y="240" fill="#9aa3b6" font-size="12.5">PennyLane default.mixed on CPU</text>
+                        <text x="36" y="256" fill="#9aa3b6" font-size="12.5">state evolution, purity, entropy</text>
+                        <line x1="190" y1="272" x2="190" y2="292" stroke="#6d8cff" stroke-width="2" marker-end="url(#qf-arrow)"></line>
+                        <rect x="20" y="284" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="308" fill="#e7e9f2" font-size="16" font-weight="700">Deterministic detector</text>
+                        <text x="36" y="328" fill="#9aa3b6" font-size="12.5">rule-based, no learned video weights</text>
+                        <text x="36" y="344" fill="#9aa3b6" font-size="12.5">calibrated thresholds; 2+ violations</text>
+                    </svg>
+                    <figcaption>Component map. The preprocessing package provides face detection, rPPG, optical flow, micro-expression extraction, and normalisation; the model package holds the detectors, bundled audio classifier, and calibrated thresholds. Model assets are loaded by project-relative paths so the image works regardless of the working directory.</figcaption>
+                </figure>
+
+                <h3>How data moves through the system</h3>
+                <ol class="flow">
+                    <li class="flow-step">
+                        <span class="flow-label">Submit media</span>
+                        <p class="flow-desc">An operator uploads a clip, still image, or audio file through the Gradio interface, which routes it to the matching analysis path.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Face detection and sample gating</span>
+                        <p class="flow-desc">Video analysis requires a sufficiently visible face. Shots with very small, distant, occluded, or extreme-profile faces may yield zero usable frames and end with an explicit error rather than a fabricated verdict.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Biological feature extraction</span>
+                        <p class="flow-desc">rPPG, optical-flow, and micro-expression signals are extracted and normalised. The rPPG path needs enough face-detected samples for bandpass filtering; shorter clips are reported honestly as insufficient.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Quantum-state simulation</span>
+                        <p class="flow-desc">Features are encoded into a simulated quantum state and evolved; observables such as purity and entropy are measured as a complexity signal.</p>
+                        <span class="flow-tag">Simulated</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Rule-based detector</span>
+                        <p class="flow-desc">Rather than learning from data, the detector enforces biological plausibility: measured metrics are compared against calibrated boundaries and a verdict is issued.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Verdict surfaced in the UI</span>
+                        <p class="flow-desc">The real/deepfake result, a confidence score, and the supporting metrics are returned to the Gradio interface.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="case-section" aria-labelledby="stack">
+                <h2 id="stack">Verified technology stack</h2>
+                <ul class="spec-list">
+                    <li><span class="spec-key">Interface</span><span class="spec-val">Gradio (<code>app.py</code> as the Space entry point)</span></li>
+                    <li><span class="spec-key">Language</span><span class="spec-val">Python 3.11</span></li>
+                    <li><span class="spec-key">Vision and signals</span><span class="spec-val">OpenCV, MediaPipe, NumPy, SciPy</span></li>
+                    <li><span class="spec-key">Audio ML</span><span class="spec-val">librosa, scikit-learn, joblib</span></li>
+                    <li><span class="spec-key">Quantum simulation</span><span class="spec-val">PennyLane (classical numerical simulation)</span></li>
+                    <li><span class="spec-key">Packaging</span><span class="spec-val">Dockerfile built on <code>python:3.11-slim</code>, binds 0.0.0.0, reads <code>PORT</code> (default 7860)</span></li>
+                    <li><span class="spec-key">Bundled assets</span><span class="spec-val"><code>model/audio_classifier.pkl</code>, <code>model/scaler.pkl</code>, <code>model/calibrated_thresholds.json</code></span></li>
+                </ul>
+            </section>
+
+            <section class="case-section" aria-labelledby="decisions">
+                <h2 id="decisions">Key technical decisions and trade-offs</h2>
+                <div class="case-grid">
+                    <div class="case-panel">
+                        <h3>Enforce physiology instead of learning it</h3>
+                        <p>The detector is deliberately rule-based. It does not train on labelled fakes; it checks whether the extracted signals remain biologically plausible. This keeps the reasoning legible and avoids a training-set dependency, but inherits the fragility of fixed boundaries.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>Project-relative asset loading</h3>
+                        <p>Model files and thresholds are resolved relative to the project rather than the working directory, so the container, a local run, and a hosted Space all load the same bundled assets without path configuration.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>CPU-only, no GPU models required</h3>
+                        <p>Nothing in the runtime requires a GPU or external credentials, which keeps the image portable and the demo cheap to host.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>One Gradio app over a bespoke Flask UI</h3>
+                        <p>Replacing the earlier Flask interface with Gradio reduced interface code and made the project directly runnable as a Space, trading some UI customisation for portability.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="limitations">
+                <h2 id="limitations">Challenges and limitations</h2>
+                <ul>
+                    <li><strong>Prototype, not evidence.</strong> Results should not be treated as definitive proof of manipulation or authenticity, and the system is not a forensic-grade instrument.</li>
+                    <li><strong>Input sensitivity.</strong> Video needs a clearly visible face with enough frames for filtering; unsuitable clips are rejected rather than guessed at.</li>
+                    <li><strong>CPU processing.</strong> Long clips can take noticeable time because all analysis runs on the CPU.</li>
+                    <li><strong>Ephemeral demo hosting.</strong> The public demo runs through a temporary tunnel from a local host and is offline whenever that host is not running.</li>
+                    <li><strong>No accuracy figures.</strong> The repository states no validated accuracy metrics, so none are asserted on this page.</li>
+                    <li><strong>Deployment not finished.</strong> The Cloud Run container path exists but the application has not been deployed there, and a permanent tunnel is not yet set up.</li>
+                </ul>
+            </section>
+
+            <section class="case-section" aria-labelledby="reproduce">
+                <h2 id="reproduce">Reproducing and exploring it</h2>
+                <p>Run it directly from a virtual environment:</p>
+<pre><code>python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python app.py</code></pre>
+                <p>Or build and run the container:</p>
+<pre><code>docker build -t qbioforge .
+docker run -p 7860:7860 -e PORT=7860 qbioforge</code></pre>
+                <p>The app then serves the Gradio interface on port 7860. There is no public source repository for this project; it is documented here and through its local deployment files.</p>
+            </section>
+
+            <section class="case-section" aria-labelledby="future">
+                <h2 id="future">Future engineering work</h2>
+                <div class="callout callout--future">
+                    <span class="callout-label">Future work - not implemented</span>
+                    <ul>
+                        <li>Stand up a permanent named tunnel so the public demo no longer depends on an ephemeral URL.</li>
+                        <li>Evaluate the detector on public deepfake datasets to substantiate its behaviour.</li>
+                        <li>Deploy the existing container to a managed platform such as Cloud Run.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="related">
+                <h2 id="related">Related case studies</h2>
+                <p class="case-section-intro">QBioForge packages the forensic approach first explored in the unified detector, and shares its edge-sensing spirit with the spectrometer project.</p>
+                <div class="case-actions">
+                    <a class="action-link" href="deepfake-detection.html">Unified Deepfake Detection</a>
+                    <a class="action-link" href="microplastic-detection.html">Microplastic Detection</a>
+                    <a class="action-link" href="../index.html#projects">Back to all projects</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="contact" class="site-footer">
+        <div class="footer-inner">
+            <h2 class="footer-title">Let's build something</h2>
+            <p class="footer-lead">Open to collaboration on applied AI, computer vision, and embedded systems work.</p>
+            <div class="footer-links">
+                <a class="btn btn-primary" href="https://github.com/mananbd07" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="btn btn-ghost" href="mailto:contact@manan.ai">Email</a>
+            </div>
+            <p class="copyright">&copy; <span id="year">2026</span> Manan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Traffic Detection - Engineering Case Study | Manan Engineering Lab</title>
+    <meta name="description" content="An experimental traffic-control system pairing YOLOv8 vehicle detection with a SUMO simulation, a classical signal-control heuristic, a Streamlit dashboard, and a PPO reinforcement-learning track.">
+    <meta name="theme-color" content="#0a0a12">
+    <link rel="canonical" href="https://manan-engineering-lab.pages.dev/projects/smart-traffic-detection.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Manan Engineering Lab">
+    <meta property="og:title" content="Smart Traffic Detection - Engineering Case Study">
+    <meta property="og:description" content="YOLOv8 detection plus a SUMO simulation and a Streamlit dashboard, with a classical signal-control heuristic and a PPO reinforcement-learning track.">
+    <meta property="og:url" content="https://manan-engineering-lab.pages.dev/projects/smart-traffic-detection.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Smart Traffic Detection - Engineering Case Study">
+    <meta name="twitter:description" content="YOLOv8 detection plus a SUMO simulation and a Streamlit dashboard with a classical heuristic and a PPO track.">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0a12'/><path d='M8 24V8l8 10 8-10v16' fill='none' stroke='%236d8cff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <nav class="navbar" aria-label="Primary navigation">
+            <a class="logo" href="../index.html#hero">Manan<span class="logo-accent">.lab</span></a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#domains">Domains</a></li>
+                <li><a href="../index.html#research">Research</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li aria-current="page">Smart Traffic Detection</li>
+            </ol>
+        </nav>
+
+        <article class="case-hero">
+            <p class="case-kicker">Case study</p>
+            <h1 class="case-title">Smart Traffic Detection</h1>
+            <p class="case-lead">An experimental traffic-control system that watches an intersection, counts what is actually there, and adjusts signal timing instead of running a fixed cycle. Vehicle detection comes from YOLOv8, the road network is a SUMO microscopic simulation driven through TraCI, and a Streamlit dashboard shows the live state. A separate track trains a PPO reinforcement-learning agent.</p>
+            <ul class="case-meta">
+                <li>Status: two versions (Pro runtime, Basic RL)</li>
+                <li>Detection: YOLOv8 Nano</li>
+                <li>Simulation: SUMO 1.26 + TraCI</li>
+                <li>Control: NumPy heuristic, PPO research track</li>
+            </ul>
+            <div class="case-actions">
+                <a class="action-link action-link--primary" href="https://github.com/mananbd07/Traffic-Detection" target="_blank" rel="noopener noreferrer">Source repository</a>
+                <a class="action-link" href="../index.html#projects">All projects</a>
+            </div>
+        </article>
+
+        <div class="case-body">
+            <section class="case-section" aria-labelledby="overview">
+                <h2 id="overview">Overview and objective</h2>
+                <p>Fixed-time signals cannot respond to real demand. The objective was a system that observes an intersection, estimates how much traffic is waiting, and makes signal decisions from that estimate - then presents the whole loop in a live dashboard so the behaviour is visible step by step.</p>
+                <p>The repository holds two implementations. The Pro version wires YOLO detection, the SUMO/TraCI runtime, and a Streamlit UI together. The Basic version is a focused reinforcement-learning evaluation built on a custom environment and Stable-Baselines3 PPO.</p>
+                <div class="callout callout--optional">
+                    <span class="callout-label">Scope note</span>
+                    <p>The currently verified runtime does not rely on live quantum hardware. The repository contains Qiskit-based circuit definitions for research, but during simulation the runtime uses classical NumPy logic to compute traffic pressure. CARLA is an optional, separate experimental track and is not required for the main workflow.</p>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="architecture">
+                <h2 id="architecture">System architecture</h2>
+                <p class="case-section-intro">Detection, simulation, and control are separate concerns joined by a small state file so the dashboard can run as an independent process.</p>
+
+                <figure class="arch-figure">
+                    <svg class="arch-svg" viewBox="0 0 380 376" role="img" aria-labelledby="td-arch-title td-arch-desc" font-family="Inter, system-ui, sans-serif" xmlns="http://www.w3.org/2000/svg">
+                        <title id="td-arch-title">Component map of the smart traffic system</title>
+                        <desc id="td-arch-desc">A four-stage stack: YOLOv8 perception feeds the SUMO simulation runtime, a signal-control policy makes decisions, and a state file drives the Streamlit dashboard.</desc>
+                        <defs>
+                            <marker id="td-arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                                <path d="M1 1 L9 5 L1 9 z" fill="#6d8cff"></path>
+                            </marker>
+                        </defs>
+                        <rect x="20" y="20" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="44" fill="#e7e9f2" font-size="16" font-weight="700">Perception</text>
+                        <text x="36" y="64" fill="#9aa3b6" font-size="12.5">YOLOv8n detection over webcam frames</text>
+                        <text x="36" y="80" fill="#9aa3b6" font-size="12.5">car, bus, truck, motorcycle; 3x3 zones</text>
+                        <line x1="190" y1="96" x2="190" y2="116" stroke="#6d8cff" stroke-width="2" marker-end="url(#td-arrow)"></line>
+                        <rect x="20" y="108" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="132" fill="#e7e9f2" font-size="16" font-weight="700">Simulation runtime</text>
+                        <text x="36" y="152" fill="#9aa3b6" font-size="12.5">SUMO 1.26 + TraCI, Jagatpura network</text>
+                        <text x="36" y="168" fill="#9aa3b6" font-size="12.5">per-junction queues; 18-float state</text>
+                        <line x1="190" y1="184" x2="190" y2="204" stroke="#6d8cff" stroke-width="2" marker-end="url(#td-arrow)"></line>
+                        <rect x="20" y="196" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="220" fill="#e7e9f2" font-size="16" font-weight="700">Signal-control policy</text>
+                        <text x="36" y="240" fill="#9aa3b6" font-size="12.5">NumPy pressure heuristic at runtime</text>
+                        <text x="36" y="256" fill="#9aa3b6" font-size="12.5">PPO policy (Stable-Baselines3) track</text>
+                        <line x1="190" y1="272" x2="190" y2="292" stroke="#6d8cff" stroke-width="2" marker-end="url(#td-arrow)"></line>
+                        <rect x="20" y="284" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="308" fill="#e7e9f2" font-size="16" font-weight="700">Telemetry and UI</text>
+                        <text x="36" y="328" fill="#9aa3b6" font-size="12.5">live_status.json written each step</text>
+                        <text x="36" y="344" fill="#9aa3b6" font-size="12.5">Streamlit dashboard + CCTV feed</text>
+                    </svg>
+                    <figcaption>Component map. The Pro runtime writes a state file that the Streamlit process reads, so the simulation and the dashboard are decoupled. The RL track uses a custom Gymnasium environment rather than the live SUMO loop.</figcaption>
+                </figure>
+
+                <h3>How data moves through the system</h3>
+                <ol class="flow">
+                    <li class="flow-step">
+                        <span class="flow-label">Detect vehicles</span>
+                        <p class="flow-desc">YOLOv8 Nano processes camera frames and counts cars, buses, trucks, and motorcycles, mapped onto a 3x3 zone grid to estimate lane density.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Step the simulation</span>
+                        <p class="flow-desc">SUMO runs the microscopic traffic simulation and TraCI reads per-traffic-light queue lengths each step, producing the state the controller consumes.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Decide the signal phase</span>
+                        <p class="flow-desc">The runtime computes a pressure score across junction queues with a NumPy softmax and sets the signal phases accordingly. The repo notes this is classical heuristic logic, not hardware quantum execution.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Persist live state</span>
+                        <p class="flow-desc">Each step writes status to a JSON file used for inter-process communication between the simulation and the UI.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Visualise</span>
+                        <p class="flow-desc">Streamlit reads the state file and renders live analytics plus the camera feed with detections drawn on top.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Train an RL agent</span>
+                        <p class="flow-desc">In the Basic version, a custom Gymnasium environment (18-value observation, discrete phase actions) is used to train a PPO policy that rewards lower cumulative waiting time and higher throughput.</p>
+                        <span class="flow-tag">Research</span>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="case-section" aria-labelledby="stack">
+                <h2 id="stack">Verified technology stack</h2>
+                <ul class="spec-list">
+                    <li><span class="spec-key">Detection</span><span class="spec-val">Ultralytics YOLOv8 Nano (<code>yolov8n.pt</code>)</span></li>
+                    <li><span class="spec-key">Simulation</span><span class="spec-val">Eclipse SUMO 1.26.0 with the TraCI control interface</span></li>
+                    <li><span class="spec-key">Reinforcement learning</span><span class="spec-val">Stable-Baselines3 PPO over a custom Gymnasium environment</span></li>
+                    <li><span class="spec-key">Control math</span><span class="spec-val">NumPy softmax over per-junction queue lengths</span></li>
+                    <li><span class="spec-key">Dashboard</span><span class="spec-val">Streamlit with pandas and OpenCV</span></li>
+                    <li><span class="spec-key">Inter-process state</span><span class="spec-val">JSON files (<code>live_status.json</code>, <code>state.json</code>), intentionally untracked</span></li>
+                    <li><span class="spec-key">Optional / experimental</span><span class="spec-val">CARLA (separate track, not required) and Qiskit circuit definitions (not executed at runtime)</span></li>
+                </ul>
+            </section>
+
+            <section class="case-section" aria-labelledby="decisions">
+                <h2 id="decisions">Key technical decisions and trade-offs</h2>
+                <div class="case-grid">
+                    <div class="case-panel">
+                        <h3>A file-based state bridge</h3>
+                        <p>The simulation writes JSON that the dashboard reads. This keeps the two processes independent and easy to restart, but the repository notes that file communication may add latency at scale and would need an API or service layer for a city-wide deployment.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>SUMO as the verified simulator</h3>
+                        <p>SUMO is scriptable, reproducible, and confirmed working end to end. CARLA offers richer 3D visuals but is heavier and is kept as an optional, separate experimental track rather than a dependency.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>Classical heuristic in the live loop</h3>
+                        <p>The runtime uses a NumPy pressure calculation rather than an RL or quantum policy. That keeps the running system predictable and fast; the RL and quantum work is evaluated alongside it, not shipped into the live loop.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>Portability through explicit paths</h3>
+                        <p>The code resolves its own directory and falls back sensibly when <code>SUMO_HOME</code> is unset, so the same scripts run across machines without hardcoded absolute paths.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="limitations">
+                <h2 id="limitations">Challenges and limitations</h2>
+                <ul>
+                    <li><strong>Webcam-only input.</strong> The CCTV workflow uses a local camera (<code>cv2.VideoCapture(0)</code>) rather than network video.</li>
+                    <li><strong>State-file latency.</strong> JSON file communication may introduce latency at scale.</li>
+                    <li><strong>Separate experimental track.</strong> CARLA integration is not part of the primary runtime.</li>
+                    <li><strong>No live quantum hardware.</strong> The quantum logic does not execute on quantum hardware.</li>
+                    <li><strong>Not deployed.</strong> Cloud deployment and containerization have not been implemented.</li>
+                    <li><strong>No comparative benchmark.</strong> The repository contains raw simulation artifacts (trip info, per-step status, analytics), but no documented baseline-versus-optimized comparison, so no performance improvement is claimed here.</li>
+                </ul>
+            </section>
+
+            <section class="case-section" aria-labelledby="reproduce">
+                <h2 id="reproduce">Reproducing and exploring it</h2>
+                <p>Install SUMO 1.26.0 and make sure it is on <code>PATH</code> or set <code>SUMO_HOME</code>, then install the Python packages with <code>pip install streamlit pandas ultralytics traci opencv-python</code>. The Pro version needs two terminals - one for the simulation, one for the dashboard:</p>
+<pre><code>cd 01_Pro_Version/environment
+python main.py</code></pre>
+<pre><code>cd 01_Pro_Version/ui
+python -m streamlit run app.py</code></pre>
+                <p>The Basic reinforcement-learning evaluation is self-contained:</p>
+<pre><code>cd 02_Basic_Version
+pip install -r requirements.txt
+python main.py</code></pre>
+                <p>It loads the trained PPO policy and runs a short smoke test in the custom environment, printing rewards and traffic states.</p>
+            </section>
+
+            <section class="case-section" aria-labelledby="future">
+                <h2 id="future">Future engineering work</h2>
+                <div class="callout callout--future">
+                    <span class="callout-label">Future work - not implemented</span>
+                    <ul>
+                        <li>Improve video input beyond the local webcam.</li>
+                        <li>Replace the file-based state communication with an API or service layer.</li>
+                        <li>Improve deployment portability, including containerization and cloud hosting.</li>
+                        <li>Further evaluate the quantum-classical optimization research.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="related">
+                <h2 id="related">Related case studies</h2>
+                <p class="case-section-intro">This is the most systems-heavy build here; it shares its applied-vision and simulation character with the microplastic and QBioForge projects.</p>
+                <div class="case-actions">
+                    <a class="action-link" href="microplastic-detection.html">Microplastic Detection</a>
+                    <a class="action-link" href="qbioforge.html">QBioForge</a>
+                    <a class="action-link" href="../index.html#projects">Back to all projects</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="contact" class="site-footer">
+        <div class="footer-inner">
+            <h2 class="footer-title">Let's build something</h2>
+            <p class="footer-lead">Open to collaboration on applied AI, computer vision, and embedded systems work.</p>
+            <div class="footer-links">
+                <a class="btn btn-primary" href="https://github.com/mananbd07" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="btn btn-ghost" href="mailto:contact@manan.ai">Email</a>
+            </div>
+            <p class="copyright">&copy; <span id="year">2026</span> Manan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

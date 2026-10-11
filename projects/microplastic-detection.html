@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microplastic Detection - Engineering Case Study | Manan Engineering Lab</title>
+    <meta name="description" content="An edge spectrometer pipeline: a Raspberry Pi gateway reads an AS7265x 18-band sensor and MPU6050 IMU, a laptop client classifies samples with a PyTorch SpectroNet model, and a Flask + SocketIO dashboard shows the results live.">
+    <meta name="theme-color" content="#0a0a12">
+    <link rel="canonical" href="https://manan-engineering-lab.pages.dev/projects/microplastic-detection.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Manan Engineering Lab">
+    <meta property="og:title" content="Microplastic Detection - Engineering Case Study">
+    <meta property="og:description" content="An edge spectrometer pipeline with a Raspberry Pi gateway, a PyTorch SpectroNet classifier, and a live Flask + SocketIO dashboard.">
+    <meta property="og:url" content="https://manan-engineering-lab.pages.dev/projects/microplastic-detection.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Microplastic Detection - Engineering Case Study">
+    <meta name="twitter:description" content="An edge spectrometer pipeline with a Raspberry Pi gateway, a PyTorch SpectroNet classifier, and a live dashboard.">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0a12'/><path d='M8 24V8l8 10 8-10v16' fill='none' stroke='%236d8cff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <nav class="navbar" aria-label="Primary navigation">
+            <a class="logo" href="../index.html#hero">Manan<span class="logo-accent">.lab</span></a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#domains">Domains</a></li>
+                <li><a href="../index.html#research">Research</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li aria-current="page">Microplastic Detection</li>
+            </ol>
+        </nav>
+
+        <article class="case-hero">
+            <p class="case-kicker">Case study</p>
+            <h1 class="case-title">Microplastic Detection</h1>
+            <p class="case-lead">A full hardware-and-software pipeline for flagging microplastics in water. A Raspberry Pi acts as an edge gateway that reads an AS7265x 18-channel spectrometer and an MPU6050 inertial sensor; a laptop client polls it, scales the 18-band reading with a saved scaler, and classifies the sample with a PyTorch neural network, streaming the result to a live dashboard.</p>
+            <ul class="case-meta">
+                <li>Status: two phases, current build is PyTorch</li>
+                <li>Model: SpectroNet MLP (18 inputs, 6 classes)</li>
+                <li>Hardware: AS7265x, MPU6050, Raspberry Pi, ESP32</li>
+                <li>Transport: HTTP polling (~1 Hz) + WebSockets</li>
+            </ul>
+            <div class="case-actions">
+                <a class="action-link action-link--primary" href="https://github.com/mananbd07/Microplastic-System" target="_blank" rel="noopener noreferrer">Source repository</a>
+                <a class="action-link" href="../index.html#projects">All projects</a>
+            </div>
+        </article>
+
+        <div class="case-body">
+            <section class="case-section" aria-labelledby="overview">
+                <h2 id="overview">Overview and objective</h2>
+                <p>Confirming microplastic contamination normally means laboratory instrumentation. The objective here was to build an end-to-end prototype that captures a spectral fingerprint near the sample, classifies it on the spot, and presents the result to an operator in real time - covering sensing, embedded control, model inference, and a live interface in one system.</p>
+                <p>The repository holds two phases. <code>01_SIH1_Old</code> is the Phase 1 prototype (a heavier quantum-classical hybrid built on TensorFlow and PennyLane) and is archived. <code>02_SIH2_New</code> is the current implementation: a conventional sensor stack and a PyTorch classifier.</p>
+                <div class="callout">
+                    <span class="callout-label">Implemented</span>
+                    <p>The current pipeline - sensor capture, the Flask gateway, the SpectroNet classifier, and the SocketIO dashboard - is implemented and runnable. The legacy Phase 1 code is retained for reference only.</p>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="architecture">
+                <h2 id="architecture">System architecture</h2>
+                <p class="case-section-intro">The design splits responsibilities across two machines: the Pi owns the hardware and a small HTTP API, while the laptop owns the model and the user interface.</p>
+
+                <figure class="arch-figure">
+                    <svg class="arch-svg" viewBox="0 0 380 376" role="img" aria-labelledby="mp-arch-title mp-arch-desc" font-family="Inter, system-ui, sans-serif" xmlns="http://www.w3.org/2000/svg">
+                        <title id="mp-arch-title">Component map of the microplastic detection pipeline</title>
+                        <desc id="mp-arch-desc">A four-stage stack: Pi sensors feed an edge gateway Flask API, which is polled by a laptop inference client, whose predictions feed a live dashboard.</desc>
+                        <defs>
+                            <marker id="mp-arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                                <path d="M1 1 L9 5 L1 9 z" fill="#6d8cff"></path>
+                            </marker>
+                        </defs>
+                        <rect x="20" y="20" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="44" fill="#e7e9f2" font-size="16" font-weight="700">Sensing (Raspberry Pi)</text>
+                        <text x="36" y="64" fill="#9aa3b6" font-size="12.5">AS7265x 18-channel spectrometer (I2C)</text>
+                        <text x="36" y="80" fill="#9aa3b6" font-size="12.5">MPU6050 IMU and Pi camera</text>
+                        <line x1="190" y1="96" x2="190" y2="116" stroke="#6d8cff" stroke-width="2" marker-end="url(#mp-arrow)"></line>
+                        <rect x="20" y="108" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="132" fill="#e7e9f2" font-size="16" font-weight="700">Edge gateway (Pi, port 5001)</text>
+                        <text x="36" y="152" fill="#9aa3b6" font-size="12.5">Flask: /api/spectrometer, /api/imu,</text>
+                        <text x="36" y="168" fill="#9aa3b6" font-size="12.5">/video_feed, /action/&lt;cmd&gt;</text>
+                        <line x1="190" y1="184" x2="190" y2="204" stroke="#6d8cff" stroke-width="2" marker-end="url(#mp-arrow)"></line>
+                        <rect x="20" y="196" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="220" fill="#e7e9f2" font-size="16" font-weight="700">Inference (laptop, port 5002)</text>
+                        <text x="36" y="240" fill="#9aa3b6" font-size="12.5">StandardScaler + SpectroNet MLP</text>
+                        <text x="36" y="256" fill="#9aa3b6" font-size="12.5">18 input features, 6 output classes</text>
+                        <line x1="190" y1="272" x2="190" y2="292" stroke="#6d8cff" stroke-width="2" marker-end="url(#mp-arrow)"></line>
+                        <rect x="20" y="284" width="340" height="72" rx="10" fill="#101120" stroke="rgba(255,255,255,0.16)"></rect>
+                        <text x="36" y="308" fill="#e7e9f2" font-size="16" font-weight="700">Dashboard</text>
+                        <text x="36" y="328" fill="#9aa3b6" font-size="12.5">Flask + SocketIO telemetry</text>
+                        <text x="36" y="344" fill="#9aa3b6" font-size="12.5">Chart.js spectrum, Leaflet map, controls</text>
+                    </svg>
+                    <figcaption>Component map. The Pi also drives an ESP32-based drivetrain over serial. The gateway exposes read endpoints plus a command endpoint; the laptop client performs the model inference and serves the operator dashboard.</figcaption>
+                </figure>
+
+                <h3>How data moves through the system</h3>
+                <ol class="flow">
+                    <li class="flow-step">
+                        <span class="flow-label">Spectral and inertial capture</span>
+                        <p class="flow-desc">The AS7265x returns 18 spectral bands over I2C, sampled and averaged to smooth out noise; the MPU6050 supplies orientation data used for stability handling.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Edge serving on the Pi</span>
+                        <p class="flow-desc">A Flask gateway exposes <code>/api/spectrometer</code>, <code>/api/imu</code>, a camera <code>/video_feed</code>, and an <code>/action/&lt;cmd&gt;</code> endpoint that forwards movement commands to the drivetrain over serial.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Polling and scaling</span>
+                        <p class="flow-desc">The laptop client polls the Pi at roughly 1 Hz and applies the saved <code>scaler.pkl</code> to normalise the 18-dimensional reading before inference.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">SpectroNet classification</span>
+                        <p class="flow-desc">A PyTorch multi-layer perceptron produces a softmax over six classes - clean water, chlorophyll, and four polymers (PE, PP, PET, PS) - using weights from <code>spectro_model.pth</code>.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Live telemetry to the dashboard</span>
+                        <p class="flow-desc">The client emits updates over SocketIO; the dashboard renders the 18-band spectrum with Chart.js, plots position on a Leaflet map, and shows the current prediction.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="flow-label">Manual control with a dead-man switch</span>
+                        <p class="flow-desc">Drive commands are issued from the interface, and releasing the key stops the drivetrain so a dropped connection does not leave it moving.</p>
+                        <span class="flow-tag">Implemented</span>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="case-section" aria-labelledby="stack">
+                <h2 id="stack">Verified technology stack</h2>
+                <ul class="spec-list">
+                    <li><span class="spec-key">Model</span><span class="spec-val">PyTorch SpectroNet MLP, 18 inputs to 6 classes, with ReLU, batch norm, and dropout layers (<code>model.py</code>)</span></li>
+                    <li><span class="spec-key">Trained artifacts</span><span class="spec-val"><code>spectro_model.pth</code> (weights) and <code>scaler.pkl</code> (feature scaler)</span></li>
+                    <li><span class="spec-key">Web layer</span><span class="spec-val">Flask with Flask-SocketIO; Chart.js and Leaflet on the front end</span></li>
+                    <li><span class="spec-key">Hardware buses</span><span class="spec-val">I2C (smbus2) for the AS7265x and MPU6050; serial (pyserial) for the ESP32 drivetrain</span></li>
+                    <li><span class="spec-key">Imaging</span><span class="spec-val">Raspberry Pi camera streaming MJPEG through the gateway</span></li>
+                    <li><span class="spec-key">Configuration</span><span class="spec-val">python-dotenv (<code>RPI_HOST</code>, <code>RPI_SERIAL_PORT</code>, <code>SECRET_KEY</code>)</span></li>
+                    <li><span class="spec-key">Training data</span><span class="spec-val">A generated synthetic spectra dataset (<code>synthetic_spectro_data.csv</code>), excluded from version control because of size</span></li>
+                </ul>
+            </section>
+
+            <section class="case-section" aria-labelledby="decisions">
+                <h2 id="decisions">Key technical decisions and trade-offs</h2>
+                <div class="case-grid">
+                    <div class="case-panel">
+                        <h3>Split the edge from the inference host</h3>
+                        <p>The Pi owns the sensors and a small API; the laptop owns the model and the UI. This keeps the heavy PyTorch workload off the constrained edge device, at the cost of a network hop and a second process to run.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>Polling at 1 Hz for simplicity</h3>
+                        <p>The client pulls samples on a fixed interval rather than the Pi pushing them. That is easy to reason about and recover, but the repository notes it adds latency compared with a push-based design.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>Run even when the Pi is offline</h3>
+                        <p>The client starts with fallback data when the Raspberry Pi cannot be reached, so the interface and inference path can be developed and demonstrated without the full hardware rig present.</p>
+                    </div>
+                    <div class="case-panel">
+                        <h3>Harden flaky hardware reads</h3>
+                        <p>I2C and serial access use timeouts and retries so a dropped sensor read does not stall the pipeline, and drive commands are paired with a dead-man switch for safety.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="limitations">
+                <h2 id="limitations">Challenges and limitations</h2>
+                <ul>
+                    <li><strong>Network assumption.</strong> The system assumes a static internal network where the Pi address is known in advance.</li>
+                    <li><strong>Lighting sensitivity.</strong> Ambient lighting heavily affects AS7265x readings.</li>
+                    <li><strong>Polling latency.</strong> One-hertz polling is slower than a fully push-based telemetry design.</li>
+                    <li><strong>Synthetic training data.</strong> The classifier is trained on generated spectra; validation against real-world water samples is not demonstrated in the repository.</li>
+                    <li><strong>Fixed class set.</strong> The model distinguishes six configured classes and nothing outside them.</li>
+                    <li><strong>No reported accuracy.</strong> The evaluation script prints results but no accuracy metric is stored, so none is claimed here.</li>
+                </ul>
+            </section>
+
+            <section class="case-section" aria-labelledby="reproduce">
+                <h2 id="reproduce">Reproducing and exploring it</h2>
+                <p>Install dependencies once with <code>pip install -r requirements.txt</code>. Run the laptop client (it can start without the Pi, using fallback data):</p>
+<pre><code>cd 02_SIH2_New/02_Software/LaptopClient
+python app_laptop.py</code></pre>
+                <p>On the Raspberry Pi, deploy the hardware code and start the gateway:</p>
+<pre><code>cd 02_SIH2_New/01_Hardware/PI
+python app.py</code></pre>
+                <p>Point the client at the Pi with a <code>.env</code> file, and retrain the classifier with the dataset generator and training script if you want to reproduce the model from scratch.</p>
+            </section>
+
+            <section class="case-section" aria-labelledby="future">
+                <h2 id="future">Future engineering work</h2>
+                <div class="callout callout--future">
+                    <span class="callout-label">Future work - not implemented</span>
+                    <ul>
+                        <li>Replace Pi-to-laptop polling with a pure WebSocket or MQTT push model.</li>
+                        <li>Optimise SpectroNet for direct on-edge inference on the Raspberry Pi.</li>
+                        <li>Wire in the GPS module logic that is currently only templated in the application.</li>
+                        <li>Train and validate on a real-world capture set rather than synthetic spectra.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="case-section" aria-labelledby="related">
+                <h2 id="related">Related case studies</h2>
+                <p class="case-section-intro">This project shares its edge-sensing and applied-model character with the QBioForge forensics build and the traffic-control system.</p>
+                <div class="case-actions">
+                    <a class="action-link" href="qbioforge.html">QBioForge</a>
+                    <a class="action-link" href="smart-traffic-detection.html">Smart Traffic Detection</a>
+                    <a class="action-link" href="../index.html#projects">Back to all projects</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="contact" class="site-footer">
+        <div class="footer-inner">
+            <h2 class="footer-title">Let's build something</h2>
+            <p class="footer-lead">Open to collaboration on applied AI, computer vision, and embedded systems work.</p>
+            <div class="footer-links">
+                <a class="btn btn-primary" href="https://github.com/mananbd07" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="btn btn-ghost" href="mailto:contact@manan.ai">Email</a>
+            </div>
+            <p class="copyright">&copy; <span id="year">2026</span> Manan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
