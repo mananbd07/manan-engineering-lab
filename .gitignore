@@ -1,0 +1,41 @@
+# ============================================================
+# Portfolio source repository - ignore rules
+# Only intentional portfolio source, assets and docs are tracked.
+# ============================================================
+
+# --- Cloudflare / Wrangler local deployment state -----------
+# May contain account identifiers and cache data. Never commit.
+.wrangler/
+
+# --- Node / tooling -----------------------------------------
+node_modules/
+
+# --- QA / test artifacts (these live in E:\Projects\Portfolio_QA) ---
+artifacts/
+screenshots/
+reports/
+*.report.json
+*.report.txt
+
+# --- Logs, temp, backups ------------------------------------
+*.log
+*.tmp
+tmp/
+*.bak
+backups/
+
+# --- Secrets / credentials ----------------------------------
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+wrangler-account.json
+
+# --- OS / editor cruft --------------------------------------
+Thumbs.db
+Desktop.ini
+desktop.ini
+.DS_Store
+.vscode/
+.idea/

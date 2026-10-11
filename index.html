@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manan - Engineering Lab</title>
+    <meta name="description" content="The Manan Engineering Lab builds practical systems across applied AI/ML, computer vision, software engineering, embedded systems, and hardware.">
+    <meta name="theme-color" content="#0a0a12">
+    <link rel="canonical" href="https://manan-engineering-lab.pages.dev/">
+
+    <!-- Social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Manan Engineering Lab">
+    <meta property="og:title" content="Manan - Engineering Lab">
+    <meta property="og:description" content="Practical systems across applied AI/ML, computer vision, software engineering, embedded systems, and hardware.">
+    <meta property="og:url" content="https://manan-engineering-lab.pages.dev/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Manan - Engineering Lab">
+    <meta name="twitter:description" content="Practical systems across applied AI/ML, computer vision, software engineering, embedded systems, and hardware.">
+
+    <!-- Inline SVG favicon (no extra request or dependency) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0a12'/><path d='M8 24V8l8 10 8-10v16' fill='none' stroke='%236d8cff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <nav class="navbar" aria-label="Primary navigation">
+            <a class="logo" href="#hero">Manan<span class="logo-accent">.lab</span></a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#domains">Domains</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <section id="hero" class="hero-section" aria-labelledby="hero-title">
+            <div class="hero-inner">
+                <p class="eyebrow">Engineering Lab</p>
+                <h1 class="hero-title" id="hero-title">Building practical systems across <span class="accent-text">AI, computer vision, and hardware</span>.</h1>
+                <p class="hero-subtitle">An applied engineering workspace focused on machine learning, real-time vision, embedded sensing, and experimental research - from deepfake forensics to edge spectrometer pipelines.</p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="https://github.com/mananbd07" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section" aria-labelledby="projects-title">
+            <div class="section-head">
+                <p class="section-kicker">Selected work</p>
+                <h2 class="section-title" id="projects-title">Featured Projects</h2>
+                <p class="section-lead">Five builds spanning forensic ML, quantum-simulated analysis, embedded sensing, applied vision, and reinforcement learning.</p>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Unified Deepfake Detection -->
+                <article class="project-card reveal">
+                    <div class="card-media">
+                        <div class="media-fallback" aria-hidden="true"><span>UDD</span></div>
+                        <img class="card-img" src="assets/deepfake.jpg" alt="Unified Deepfake Detection pipeline" width="390" height="510" loading="lazy" decoding="async">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Unified Deepfake Detection</h3>
+                        <p class="card-desc">A forensic platform combining rPPG pulse, inertial optical flow, and micro-expression signals with a PennyLane quantum-state simulation, plus classical ML audio detection and OpenCV error-level analysis for images.</p>
+                        <ul class="tag-list">
+                            <li class="tag">Python</li>
+                            <li class="tag">PennyLane (sim)</li>
+                            <li class="tag">MediaPipe</li>
+                            <li class="tag">scikit-learn</li>
+                        </ul>
+                        <div class="card-actions">
+                            <a class="action-link" href="https://github.com/mananbd07/Deepfake-System" target="_blank" rel="noopener noreferrer">Repository</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- QBioForge -->
+                <article class="project-card project-card--featured reveal">
+                    <div class="card-media">
+                        <div class="media-fallback" aria-hidden="true"><span>QBF</span></div>
+                        <span class="card-badge">Live demo</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">QBioForge - Quantum Deepfake Forensics</h3>
+                        <p class="card-desc">Classical-quantum-simulated forensic analysis of video, image, and audio using rPPG, optical flow, and micro-expression signals. Quantum components are simulated on classical CPU hardware.</p>
+                        <ul class="tag-list">
+                            <li class="tag">Python</li>
+                            <li class="tag">rPPG</li>
+                            <li class="tag">Optical flow</li>
+                            <li class="tag">MediaPipe</li>
+                        </ul>
+                        <div class="card-actions">
+                            <a id="qbioforge-demo" href="https://founded-occupations-tickets-winners.trycloudflare.com" target="_blank" rel="noopener noreferrer" class="action-link action-link--primary">Live Demo</a>
+                        </div>
+                        <p class="card-note">External demo. It is served from a local host through a temporary Cloudflare tunnel and may be offline when that host is not running.</p>
+                    </div>
+                </article>
+
+                <!-- Microplastic Detection -->
+                <article class="project-card reveal">
+                    <div class="card-media">
+                        <div class="media-fallback" aria-hidden="true"><span>MP</span></div>
+                        <img class="card-img" src="assets/microplastic.jpg" alt="Microplastic detection hardware and dashboard" width="888" height="960" loading="lazy" decoding="async">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Microplastic Detection</h3>
+                        <p class="card-desc">A hardware-software integration where a Raspberry Pi and ESP32 drive an AS7265x 18-band spectrometer, feeding a PyTorch SpectroNet classifier that flags microplastics in water samples with a live Flask + SocketIO dashboard.</p>
+                        <ul class="tag-list">
+                            <li class="tag">Python</li>
+                            <li class="tag">PyTorch</li>
+                            <li class="tag">Raspberry Pi</li>
+                            <li class="tag">AS7265x</li>
+                            <li class="tag">Flask</li>
+                        </ul>
+                        <div class="card-actions">
+                            <a class="action-link" href="https://github.com/mananbd07/Microplastic-System" target="_blank" rel="noopener noreferrer">Repository</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SecretEye -->
+                <article class="project-card reveal">
+                    <div class="card-media">
+                        <div class="media-fallback" aria-hidden="true"><span>SE</span></div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">SecretEye</h3>
+                        <p class="card-desc">A food-scanning application that classifies food items with a multi-task ResNet-50 model and maps them to basic nutritional and Ayurvedic (Dosha) reference information. A prototype, not a clinical or nutritional authority.</p>
+                        <ul class="tag-list">
+                            <li class="tag">PyTorch</li>
+                            <li class="tag">FastAPI</li>
+                            <li class="tag">React</li>
+                            <li class="tag">Expo</li>
+                        </ul>
+                        <div class="card-actions">
+                            <a class="action-link" href="https://github.com/mananbd07/SecretEye" target="_blank" rel="noopener noreferrer">Repository</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Smart Traffic Detection -->
+                <article class="project-card reveal">
+                    <div class="card-media">
+                        <div class="media-fallback" aria-hidden="true"><span>TD</span></div>
+                        <img class="card-img" src="assets/traffic.webp" alt="Vehicle detection over a simulated traffic scene" width="1280" height="768" loading="lazy" decoding="async">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Smart Traffic Detection</h3>
+                        <p class="card-desc">An experimental traffic-control system pairing YOLOv8 vehicle detection with SUMO microscopic simulation and PPO reinforcement learning to optimize signal timing. CARLA is an optional, non-primary simulation dependency.</p>
+                        <ul class="tag-list">
+                            <li class="tag">YOLOv8</li>
+                            <li class="tag">SUMO</li>
+                            <li class="tag">PPO</li>
+                            <li class="tag">Streamlit</li>
+                        </ul>
+                        <div class="card-actions">
+                            <a class="action-link" href="https://github.com/mananbd07/Traffic-Detection" target="_blank" rel="noopener noreferrer">Repository</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="domains" class="section" aria-labelledby="domains-title">
+            <div class="section-head">
+                <p class="section-kicker">Capabilities</p>
+                <h2 class="section-title" id="domains-title">Technical Domains</h2>
+                <p class="section-lead">The tooling and disciplines exercised across the projects above.</p>
+            </div>
+            <div class="domains-grid">
+                <article class="domain-card reveal">
+                    <h3>AI &amp; Machine Learning</h3>
+                    <p>PyTorch classifiers, scikit-learn pipelines, Stable-Baselines3 PPO agents, and quantum-circuit simulation with PennyLane and Qiskit.</p>
+                </article>
+                <article class="domain-card reveal">
+                    <h3>Computer Vision</h3>
+                    <p>Real-time detection and analysis with YOLOv8, OpenCV, and MediaPipe FaceMesh for physiological and spatial signals.</p>
+                </article>
+                <article class="domain-card reveal">
+                    <h3>Software Engineering</h3>
+                    <p>Python services with Flask and FastAPI, React/Vite and Streamlit front ends, SocketIO telemetry, and Docker-based packaging.</p>
+                </article>
+                <article class="domain-card reveal">
+                    <h3>Embedded Systems</h3>
+                    <p>Raspberry Pi edge hubs and ESP32/Arduino controllers bridged over I2C and serial links for sensor and actuator control.</p>
+                </article>
+                <article class="domain-card reveal">
+                    <h3>Hardware</h3>
+                    <p>Sensor integration including the AS7265x 18-channel spectrometer, IMU modules, and motor drivetrains.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="research" class="section" aria-labelledby="research-title">
+            <div class="section-head">
+                <p class="section-kicker">Open threads</p>
+                <h2 class="section-title" id="research-title">Research &amp; Experimentation</h2>
+                <p class="section-lead">Exploratory directions. These are prototypes and studies, presented with their limits stated.</p>
+            </div>
+            <ul class="research-list">
+                <li class="research-item reveal">
+                    <h3>Quantum-simulated forensics</h3>
+                    <p>Mapping physiological signals onto simulated quantum states as a mathematical framework for measuring signal complexity. Simulation only - no execution on quantum hardware and no quantum-advantage claims.</p>
+                </li>
+                <li class="research-item reveal">
+                    <h3>Physiological deepfake detection</h3>
+                    <p>Using rPPG pulse, inertial optical flow, and micro-expression strain against calibrated thresholds, rather than a single black-box frame classifier.</p>
+                </li>
+                <li class="research-item reveal">
+                    <h3>Reinforcement learning for traffic signals</h3>
+                    <p>PPO agents trained on a custom SUMO/Gymnasium environment, with classical heuristics serving as the verified primary runtime.</p>
+                </li>
+                <li class="research-item reveal">
+                    <h3>Edge sensing for environmental analysis</h3>
+                    <p>Combining NIR/visible spectroscopy with on-device inference to classify water samples and move analysis closer to the sensor.</p>
+                </li>
+            </ul>
+        </section>
+
+        <section id="about" class="section" aria-labelledby="about-title">
+            <div class="about-layout">
+                <div class="section-head section-head--left">
+                    <p class="section-kicker">About</p>
+                    <h2 class="section-title" id="about-title">Engineering interests</h2>
+                </div>
+                <div class="about-copy">
+                    <p>The Engineering Lab is a personal workspace for building complete systems rather than isolated models. The focus is the full path: sensing and data capture, model and algorithm design, the software that ties it together, and the presentation that makes it usable.</p>
+                    <p>Work leans toward applied AI, computer vision, embedded hardware, and the interfaces that connect them, with an emphasis on prototypes that run end to end and document their own limitations honestly. Many components here are experimental and are labeled as such rather than overstated.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="site-footer">
+        <div class="footer-inner">
+            <h2 class="footer-title">Let's build something</h2>
+            <p class="footer-lead">Open to collaboration on applied AI, computer vision, and embedded systems work.</p>
+            <div class="footer-links">
+                <a class="btn btn-primary" href="https://github.com/mananbd07" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="btn btn-ghost" href="mailto:contact@manan.ai">Email</a>
+            </div>
+            <p class="copyright">&copy; <span id="year">2026</span> Manan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
