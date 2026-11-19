@@ -1,38 +1,61 @@
-# ============================================================
-# Portfolio source repository - ignore rules
-# Only intentional portfolio source, assets and docs are tracked.
-# ============================================================
+# Virtual Environments
+venv/
+.venv/
+env/
 
-# --- Cloudflare / Wrangler local deployment state -----------
-# May contain account identifiers and cache data. Never commit.
-.wrangler/
+# Python Cache
+__pycache__/
+*.pyc
 
-# --- Node / tooling -----------------------------------------
+# Large Datasets & Builds
+dataset_massive/
+target/
+CARLA_Server/
+*.csv
+# *.zip
+*.tar.gz
+
+# Secrets & Env
+.env
+.env.*
+!.env.example
+*.json
+!ayurveda_map.json
+!package.json
+!thresholds.json
+
+# Node
 node_modules/
 
-# --- QA / test artifacts (these live in E:\Projects\Portfolio_QA) ---
+# Model archives
+!ppo_traffic.zip
+!ppo_traffic_lstm.zip
+
+# --- Portfolio-specific rules (preserved from existing file) ---
+# Cloudflare / Wrangler local deployment state
+.wrangler/
+
+# QA / test artifacts (these live in E:\Projects\Portfolio_QA)
 artifacts/
 screenshots/
 reports/
 *.report.json
 *.report.txt
 
-# --- Logs, temp, backups ------------------------------------
+# Logs, temp, backups
 *.log
 *.tmp
 tmp/
 *.bak
 backups/
 
-# --- Secrets / credentials ----------------------------------
-.env
-.env.*
+# Secrets / credentials
 *.pem
 *.key
 credentials.json
 wrangler-account.json
 
-# --- OS / editor cruft --------------------------------------
+# OS / editor cruft
 Thumbs.db
 Desktop.ini
 desktop.ini
