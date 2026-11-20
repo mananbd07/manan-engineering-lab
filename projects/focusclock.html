@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusClock | Manan Engineering Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css"> <!-- Link to your main CSS -->
+    <style>
+        .app-container {
+            margin-top: 2rem;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            height: 600px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .app-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .hero-small {
+            min-height: auto;
+            padding-top: 120px;
+            padding-bottom: 4rem;
+            text-align: center;
+        }
+        .hero-small h1 {
+            font-size: 3rem;
+        }
+        .hero-small p {
+            margin: 0 auto 2rem auto;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <nav class="navbar">
+        <a href="../index.html" class="logo" style="text-decoration: none; color: white;">Manan<span>.Lab</span></a>
+        <div class="nav-links">
+            <a href="../index.html#projects">Back to Projects</a>
+        </div>
+    </nav>
+
+    <header class="hero hero-small">
+        <div class="hero-content">
+            <h1>FocusClock <span class="gradient-text">App</span></h1>
+            <p>A lightweight productivity application designed to sync focus sessions with Google Drive. Built with Tauri and React.</p>
+            
+            <div class="btn-group">
+                <a href="https://github.com/mananbd07/focusclock-desktop/releases/tag/v1.0.0" target="_blank" class="btn-primary">Download for Desktop</a>
+                <a href="#web-app" class="btn-secondary">Try Web Version</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="web-app" class="section" style="padding-top: 0;">
+        <div class="app-container">
+            <!-- This loads your actual web app! -->
+            <iframe src="focusclock-app/index.html" title="FocusClock Web App"></iframe>
+        </div>
+        <p style="text-align: center; color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">
+            *The web version uses local browser storage. To sync with Google Drive, please download the desktop app.
+        </p>
+    </section>
+
+</body>
+</html>
