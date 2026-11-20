@@ -3,123 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manan Engineering Lab | AI & Hardware Systems</title>
-    <meta name="description" content="Portfolio of Manan. Building practical systems across AI, computer vision, and hardware.">
+    <title>Manan Bidawatka | Software Engineer</title>
+    <meta name="description" content="Portfolio of Manan Bidawatka, Software Engineering Intern Candidate.">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Background Elements -->
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">Manan<span>.Lab</span></div>
-        <div class="nav-links">
-            <a href="#projects">Projects</a>
-            <a href="#about">About</a>
-            <a href="#contact" class="btn-primary">Contact</a>
-        </div>
+    <!-- Sticky Navigation -->
+    <nav class="brutal-nav">
+        <div class="logo">MB.LAB</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#achievements">Achievements</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
     </nav>
 
     <!-- Hero Section -->
     <header class="hero">
         <div class="hero-content">
-            <div class="badge">Available for collaborations</div>
-            <h1>Building Intelligent Systems for the <span class="gradient-text">Real World</span></h1>
-            <p>Engineering lab focused on AI security, computer vision, environmental tech, and smart hardware. Bridging the gap between software models and physical reality.</p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn-primary">Explore Projects</a>
-                <a href="https://github.com/mananbd07" target="_blank" class="btn-secondary">View GitHub</a>
+            <div class="hero-text">
+                <h1>MANAN<br>BIDAWATKA</h1>
+                <p class="tagline">Software Engineering Intern Candidate<br>Backend Development | AI/ML</p>
+                <div class="hero-actions">
+                    <a href="[RESUME_URL]" target="_blank" rel="noopener noreferrer" class="btn btn-yellow">Download Resume</a>
+                    <a href="#projects" class="btn btn-white">View Projects</a>
+                </div>
+            </div>
+            <div class="hero-sticker-container">
+                <div class="sticker rotating-sticker">
+                    <svg viewBox="0 0 100 100" width="100" height="100">
+                        <path id="curve" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
+                        <text font-family="DM Mono" font-size="12" fill="#000" font-weight="bold">
+                            <textPath href="#curve">
+                                OPEN TO INTERNSHIPS • OPEN TO INTERNSHIPS • 
+                            </textPath>
+                        </text>
+                    </svg>
+                    <div class="sticker-icon">💼</div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Projects Section -->
-    <section id="projects" class="section">
-        <h2 class="section-title">Featured <span class="gradient-text">Systems</span></h2>
-        <div class="project-grid">
-
-            <!-- Project 1: DeepFake -->
-            <article class="project-card">
-                <div class="card-header">
-                    <span class="tag gpu">AI Security</span>
-                </div>
-                <h3>Unified DeepFake Detection</h3>
-                <p>Multimodal deepfake screening of video calls using audio spectral features and biological signal checks (rPPG).</p>
-                <div class="tech-stack">
-                    <span>Python</span><span>Flask</span><span>OpenCV</span>
-                </div>
-                <a href="https://deepfake-detection-demo.onrender.com/" target="_blank" class="card-link">Launch Live Demo &rarr;</a>
-            </article>
-
-            <!-- Project 2: SecretEye -->
-            <article class="project-card">
-                <div class="card-header">
-                    <span class="tag cpu">Health Tech</span>
-                </div>
-                <h3>SecretEye App</h3>
-                <p>AI-powered food scanner combined with Ayurvedic knowledge. Identifies dishes and provides personalized nutritional insights.</p>
-                <div class="tech-stack">
-                    <span>FastAPI</span><span>React</span><span>PyTorch</span>
-                </div>
-                <a href="https://github.com/mananbd07/focusclock-desktop/releases/tag/v1.0.0" target="_blank" class="card-link">Download App &rarr;</a>
-            </article>
-
-            <!-- Project 3: Microplastic -->
-            <article class="project-card">
-                <div class="card-header">
-                    <span class="tag cpu">Environmental</span>
-                </div>
-                <h3>Microplastic Detection</h3>
-                <p>Two-node system utilizing spectro-optical sensor readings from a Raspberry Pi to classify polymer types in water samples.</p>
-                <div class="tech-stack">
-                    <span>Raspberry Pi</span><span>Flask</span><span>Scikit-Learn</span>
-                </div>
-                <a href="https://microplastic-detection-demo.onrender.com/" target="_blank" class="card-link">Try Simulation &rarr;</a>
-            </article>
-
-            <!-- Project 4: Traffic -->
-            <article class="project-card">
-                <div class="card-header">
-                    <span class="tag rl">Smart Cities</span>
-                </div>
-                <h3>Smart Traffic Detection</h3>
-                <p>Reinforcement learning-based adaptive traffic-signal control with YOLOv8 vehicle perception and ambulance routing.</p>
-                <div class="tech-stack">
-                    <span>SUMO</span><span>YOLOv8</span><span>Streamlit</span>
-                </div>
-                <a href="#" class="card-link">View Dashboard &rarr;</a>
-            </article>
-
-            <!-- Project 5: Clock App -->
-            <article class="project-card">
-                <div class="card-header">
-                    <span class="tag app">Desktop</span>
-                </div>
-                <h3>FocusClock</h3>
-                <p>A lightweight productivity application designed to sync focus sessions with Google Drive.</p>
-                <div class="tech-stack">
-                    <span>Tauri</span><span>React</span><span>Rust</span>
-                </div>
-                <a href="projects/focusclock.html" class="card-link">Launch App &rarr;</a>
-            </article>
-
+    <!-- Marquee -->
+    <div class="marquee-container">
+        <div class="marquee">
+            <span>C++</span> <span>Java</span> <span>Python</span> <span>JavaScript</span> <span>SQL</span> <span>Node.js</span> <span>Express.js</span> <span>REST APIs</span> <span>MongoDB</span> <span>Docker</span> <span>OpenCV</span> <span>NumPy</span> <span>Pandas</span> <span>Scikit-learn</span> <span>Git</span> <span>Postman</span>
+            <span>C++</span> <span>Java</span> <span>Python</span> <span>JavaScript</span> <span>SQL</span> <span>Node.js</span> <span>Express.js</span> <span>REST APIs</span> <span>MongoDB</span> <span>Docker</span> <span>OpenCV</span> <span>NumPy</span> <span>Pandas</span> <span>Scikit-learn</span> <span>Git</span> <span>Postman</span>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer id="contact">
+    <main>
+        <!-- About Section -->
+        <section id="about" class="section">
+            <h2 class="section-title">ABOUT ME</h2>
+            <div class="brutal-box">
+                <p>I am a B.Tech CSE student at <strong>JECRC University, Jaipur</strong> with a CGPA of <strong>9.44/10</strong>. I specialize in backend development and AI/ML, building practical systems that bridge the gap between software models and physical reality.</p>
+                <p>Based in Jaipur, India.</p>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <h2 class="section-title">FEATURED PROJECTS</h2>
+            <div class="projects-grid">
+                
+                <!-- 1. Deepfake -->
+                <article class="project-card bg-pink">
+                    <div class="tag">AI SECURITY</div>
+                    <h3>Unified DeepFake Detection</h3>
+                    <p>Multimodal deepfake screening of video calls using audio spectral features and biological signal checks (rPPG).</p>
+                    <div class="tech-stack">
+                        <span>Python</span><span>Flask</span><span>OpenCV</span>
+                    </div>
+                    <a href="[DEEPFAKE_URL]" target="_blank" rel="noopener noreferrer" class="btn btn-black">Launch Live Demo</a>
+                </article>
+
+                <!-- 2. SecretEye (Featured) -->
+                <article class="project-card bg-mint featured-card">
+                    <div class="featured-badge">FEATURED</div>
+                    <div class="tag">HEALTH TECH</div>
+                    <h3>SecretEye App</h3>
+                    <p>AI-powered food scanner combined with Ayurvedic knowledge. Identifies dishes and provides personalized nutritional insights.</p>
+                    <div class="tech-stack">
+                        <span>FastAPI</span><span>React</span><span>PyTorch</span>
+                    </div>
+                    <a href="[SECRETEYE_URL]" target="_blank" rel="noopener noreferrer" class="btn btn-black">Download App</a>
+                </article>
+
+                <!-- 3. Microplastic -->
+                <article class="project-card bg-blue">
+                    <div class="tag">ENVIRONMENTAL</div>
+                    <h3>Microplastic Detection</h3>
+                    <p>Two-node system utilizing spectro-optical sensor readings from a Raspberry Pi to classify polymer types in water samples.</p>
+                    <div class="tech-stack">
+                        <span>Raspberry Pi</span><span>Flask</span><span>Scikit-Learn</span>
+                    </div>
+                    <a href="[MICROPLASTIC_URL]" target="_blank" rel="noopener noreferrer" class="btn btn-black">Try Simulation</a>
+                </article>
+
+                <!-- 4. Traffic -->
+                <article class="project-card bg-orange">
+                    <div class="tag">SMART CITIES</div>
+                    <h3>Smart Traffic Detection</h3>
+                    <p>Reinforcement learning-based adaptive traffic-signal control with YOLOv8 vehicle perception and ambulance routing.</p>
+                    <div class="tech-stack">
+                        <span>SUMO</span><span>YOLOv8</span><span>Streamlit</span>
+                    </div>
+                    <a href="[TRAFFIC_URL]" target="_blank" rel="noopener noreferrer" class="btn btn-black">View Dashboard</a>
+                </article>
+
+                <!-- 5. FocusClock -->
+                <article class="project-card bg-yellow">
+                    <div class="tag">DESKTOP</div>
+                    <h3>FocusClock</h3>
+                    <p>A lightweight productivity application designed to sync focus sessions with Google Drive.</p>
+                    <div class="tech-stack">
+                        <span>Tauri</span><span>React</span><span>Rust</span>
+                    </div>
+                    <a href="[FOCUSCLOCK_URL]" target="_blank" rel="noopener noreferrer" class="btn btn-black">Launch App</a>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- Achievements & Experience -->
+        <section id="achievements" class="section grid-2-col">
+            
+            <div class="achievements-col">
+                <h2 class="section-title">ACHIEVEMENTS</h2>
+                <div class="stickers-container">
+                    <div class="achievement-sticker rotate-left">
+                        <strong>SIH Winner</strong><br>Smart India Hackathon Prelims
+                    </div>
+                    <div class="achievement-sticker rotate-right">
+                        <strong>IIT Delhi Finalist</strong><br>Top 10 of 1,000+ Teams
+                    </div>
+                    <div class="achievement-sticker rotate-slight-left">
+                        <strong>200+ LeetCode</strong><br>Problems Solved
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-col">
+                <h2 class="section-title">EXPERIENCE</h2>
+                <div class="brutal-box">
+                    <h3>Data Analyst Intern</h3>
+                    <p class="mono-text">InAmigos Foundation (Remote)</p>
+                    <p class="mono-text">July 2026</p>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="footer">
         <div class="footer-content">
-            <h2>Let's build something <span class="gradient-text">impactful</span>.</h2>
-            <p>Currently open to research collaborations, internships, and engineering roles.</p>
-            <!-- ⚠️ CHANGE THIS EMAIL TO YOUR REAL EMAIL -->
-            <a href="mailto:contact@mananlab.com" class="btn-primary">Get in Touch</a>
-            <p class="copyright">&copy; 2026 Manan Engineering Lab. All rights reserved.</p>
+            <h2>LET'S TALK.</h2>
+            <div class="social-links">
+                <a href="mailto:mananbd07@gmail.com" class="btn btn-white">Email</a>
+                <a href="[LINKEDIN_URL]" target="_blank" rel="noopener noreferrer" class="btn btn-white">LinkedIn</a>
+                <a href="[GITHUB_URL]" target="_blank" rel="noopener noreferrer" class="btn btn-white">GitHub</a>
+                <a href="[LEETCODE_URL]" target="_blank" rel="noopener noreferrer" class="btn btn-white">LeetCode</a>
+            </div>
+            <p class="copyright">&copy; 2026 Manan Bidawatka. Built with zero blur.</p>
         </div>
     </footer>
+
 </body>
 </html>
